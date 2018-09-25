@@ -6,7 +6,7 @@
  * Time: 16:13
  */
 
-namespace adamyu\helper\crypt;
+namespace adamyxt\helper\crypt;
 
 
 use yii\base\InvalidParamException;

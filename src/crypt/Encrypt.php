@@ -6,7 +6,7 @@
  * Time: 16:16
  */
 
-namespace adamyu\helper\crypt;
+namespace adamyxt\helper\crypt;
 
 
 class Encrypt extends Crypt

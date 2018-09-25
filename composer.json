@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "adamyu\\helper\\": "src"
+            "adamyxt\\helper\\": "src"
         }
     }
 }
