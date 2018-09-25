@@ -1,0 +1,22 @@
+{
+    "name": "adamyu/helper",
+    "description": "Various custom plug-ins used by the project",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","helper"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "adamyu",
+            "email": "adamyxt@outlook.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "adamyu\\helper\\": "src"
+        }
+    }
+}
