@@ -1,5 +1,5 @@
 {
-    "name": "adamYxt/helper",
+    "name": "adamyxt/helper",
     "description": "Various custom plug-ins used by the project",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","helper"],
