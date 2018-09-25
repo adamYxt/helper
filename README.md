@@ -28,4 +28,5 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
+测试自动更新
 <?= \adamyu\helper\AutoloadExample::widget(); ?>```
