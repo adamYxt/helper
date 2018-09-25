@@ -4,6 +4,9 @@
     "type": "yii2-extension",
     "keywords": ["yii2","extension","helper"],
     "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/adamyxt/helper"
+    },
     "authors": [
         {
             "name": "adamyu",
