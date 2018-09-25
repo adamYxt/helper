@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist adamYxt/helper "*"
+php composer.phar require --prefer-dist adamyxt/helper "*"
 ```
 
 or add
 
 ```
-"adamyu/helper": "*"
+"adamyxt/helper": "*"
 ```
 
 to the require section of your `composer.json` file.
