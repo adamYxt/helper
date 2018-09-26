@@ -83,9 +83,11 @@ Usage
                 'create_at' => time()
             ],
         ];
+        //二维数组键为where条件(比如说上面的意思是修改id为1的num，create_at，ice_num字段)，每个修改的字段可以单独设置为替换，加，减，不设置默认为替换
         $connection = Yii::$app->db;
         $transaction = $connection->beginTransaction();
         try {
+        //test为表名，id为where条件字段
             if (!MysqlHelper::batchUpdate('test', 'id', $data)) {
                 throw new Exception(123);
             }
@@ -94,5 +96,4 @@ Usage
             $transaction->rollBack();
             var_dump($e->getMessage());
         }
-二维数组键值为where条件，每个修改的字段可以单独设置为替换，加，减，不设置默认为替换
 ```
