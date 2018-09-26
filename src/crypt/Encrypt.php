@@ -16,7 +16,7 @@ class Encrypt extends Crypt
      * @param array $data
      * @return string
      */
-    public function encrypt(array $data):string
+    public function encrypt(array $data): string
     {
         return $this->preData($data);
     }

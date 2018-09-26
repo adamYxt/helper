@@ -50,3 +50,49 @@ Usage
     $data['sign'] = $sign;
     将计算出的签名sign加入data并传输data
     ```
+-----
+
+数据库批量修改封装帮助类使用方法(配合事物使用，次方法适用于批量修改数字型字段的加减)  :
+
+```php
+        $data = [
+            1 => [
+                'num' => [
+                    'value' => 45,
+                    'type' => MysqlHelper::UPDATE_PLUS
+                ],
+                'create_at' => time(),
+                'ice_num' => 6
+            ],
+            2 => [
+                'num' => [
+                    'value' => 45,
+                    'type' => MysqlHelper::UPDATE_MINUS
+                ],
+                'create_at' => time(),
+                'ice_num' => 3
+            ],
+            3 => [
+                'num' => 456,
+                'ice_num' => 9,
+                'create_at' => time()
+            ],
+            5 => [
+                'num' => 12783,
+                'ice_num' => 7,
+                'create_at' => time()
+            ],
+        ];
+        $connection = Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        try {
+            if (!MysqlHelper::batchUpdate('test', 'id', $data)) {
+                throw new Exception(123);
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            var_dump($e->getMessage());
+        }
+二维数组键值为where条件，每个修改的字段可以单独设置为替换，加，减，不设置默认为替换
+```

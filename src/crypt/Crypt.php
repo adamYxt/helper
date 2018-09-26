@@ -22,20 +22,20 @@ abstract class Crypt
      * @param array $data
      * @return string
      */
-    protected function preData(array $data):string
+    protected function preData(array $data): string
     {
         if (empty($data)) {
             throw new InvalidParamException('加密数据不能为空');
         }
         $data_list = $this->enResponseData($data);
-        return strtoupper(md5($this->key.$data_list.$this->key));
+        return strtoupper(md5($this->key . $data_list . $this->key));
     }
 
     /**
      * @param $response
      * @return string
      */
-    protected function enResponseData(array $response):string 
+    protected function enResponseData(array $response): string
     {
         if (isset($response['sign'])) {
             unset($response['sign']);
@@ -50,16 +50,16 @@ abstract class Crypt
      * @param bool $urlEncode
      * @return string
      */
-    protected function formatBizQueryParaMap(array $paraMap, bool $urlEncode = false):string
+    protected function formatBizQueryParaMap(array $paraMap, bool $urlEncode = false): string
     {
         $buff = "";
         foreach ($paraMap as $k => $v) {
-            if($urlEncode){
+            if ($urlEncode) {
                 $v = urlencode($v);
             }
-            $buff .= $k .$v;
+            $buff .= $k . $v;
         }
-        $reqPar="";
+        $reqPar = "";
         if (strlen($buff) > 0) {
             $reqPar = $buff;
         }
