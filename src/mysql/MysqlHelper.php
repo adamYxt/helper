@@ -51,7 +51,7 @@ class MysqlHelper
                 }
                 $ids .= $id . ',';
                 unset($data[$id]);
-                if (count($data) == 0 || strlen($total_sql_count) > 800000) {
+                if (self::func_new_count($data) == 0 || strlen($total_sql_count) > 800000) {
                     $ids = substr($ids, 0, -1);
                     $sql = '';
                     foreach ($fields as $end_field) {
@@ -69,7 +69,7 @@ class MysqlHelper
             if ($resultData == 0) {
                 throw new Exception('没有修改成功');
             }
-        } while (count($data) > 0);
+        } while (self::func_new_count($data) > 0);
 
         return true;
     }
@@ -105,6 +105,21 @@ class MysqlHelper
 
         } else {
             return sprintf('WHEN %s THEN %s ', $case_field, $field_value);
+        }
+    }
+
+    /**
+     *计算数组长度
+     * @param $array_or_countable
+     * @param int $mode
+     * @return int
+     */
+    private static function func_new_count($array_or_countable, $mode = COUNT_NORMAL)
+    {
+        if (is_array($array_or_countable) || is_object($array_or_countable)) {
+            return count($array_or_countable, $mode);
+        } else {
+            return 0;
         }
     }
 
