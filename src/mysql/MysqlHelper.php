@@ -46,7 +46,7 @@ class MysqlHelper
             $total_sql_count = '';
             foreach ($data as $id => $ordinal) {
                 foreach ($ordinal as $field => $value) {
-                    $$field .= self::sprintfSql($field, $id, $value);
+                    $$field .= self::sprint_sql($field, $id, $value);
                     $total_sql_count .= $$field;
                 }
                 $ids .= $id . ',';
@@ -82,13 +82,13 @@ class MysqlHelper
      * @return string
      * @throws Exception
      */
-    private static function sprintfSql(string $field, string $case_field, $field_value): string
+    private static function sprint_sql(string $field, string $case_field, $field_value): string
     {
         if (is_array($field_value)) {
             if (isset($field_value['type'])) {
                 switch ($field_value['type']) {
                     case 1:
-                        return sprintf('WHEN %s THEN %s ', $case_field, $field_value['value']);
+                        return self::character_type($case_field, $field_value['value']);
                         break;
                     case 2:
                         return sprintf('WHEN %s THEN ' . $field . '+%s ', $case_field, $field_value['value']);
@@ -100,11 +100,11 @@ class MysqlHelper
                         throw new Exception('批量修改助手中没有此类型');
                 }
             } else {
-                return sprintf('WHEN %s THEN %s ', $case_field, $field_value['value']);
+                return self::character_type($case_field, $field_value['value']);
             }
 
         } else {
-            return sprintf('WHEN %s THEN %s ', $case_field, $field_value);
+            return self::character_type($case_field, $field_value);
         }
     }
 
@@ -114,12 +114,26 @@ class MysqlHelper
      * @param int $mode
      * @return int
      */
-    private static function func_new_count($array_or_countable, $mode = COUNT_NORMAL)
+    private static function func_new_count($array_or_countable, $mode = COUNT_NORMAL): int
     {
         if (is_array($array_or_countable) || is_object($array_or_countable)) {
             return count($array_or_countable, $mode);
         } else {
             return 0;
+        }
+    }
+
+    /**
+     * @param $case_field
+     * @param $value
+     * @return string
+     */
+    private static function character_type($case_field, $value): string
+    {
+        if (is_numeric($value)) {
+            return sprintf('WHEN %s THEN %s ', $case_field, $value);
+        } else {
+            return sprintf('WHEN %s THEN %s ', $case_field, "'" . $value . "'");
         }
     }
 
