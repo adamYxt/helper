@@ -20,9 +20,8 @@ class MysqlHelper
      * Mysql批量修改方法封装
      * @param string $table_name
      * @param string $case_field
-     * @param int $update_type
      * @param array $data
-     * @return boolean
+     * @return bool
      * @throws Exception
      */
     public static function batchUpdate(string $table_name, string $case_field, array $data): bool
@@ -49,7 +48,11 @@ class MysqlHelper
                     $$field .= self::sprint_sql($field, $id, $value);
                     $total_sql_count .= $$field;
                 }
-                $ids .= $id . ',';
+                if (is_string($case_field)) {
+                    $ids .= "'" . $id . "'" . ',';
+                } else {
+                    $ids .= $id . ',';
+                }
                 unset($data[$id]);
                 if (self::func_new_count($data) == 0 || strlen($total_sql_count) > 800000) {
                     $ids = substr($ids, 0, -1);
@@ -67,7 +70,7 @@ class MysqlHelper
             }
             $resultData = $connection->createCommand($sql)->execute();
             if ($resultData == 0) {
-                throw new Exception('没有修改成功');
+                throw new Exception($sql);
             }
         } while (self::func_new_count($data) > 0);
 
@@ -91,10 +94,18 @@ class MysqlHelper
                         return self::character_type($case_field, $field_value['value']);
                         break;
                     case 2:
-                        return sprintf('WHEN %s THEN ' . $field . '+%s ', $case_field, $field_value['value']);
+                        if (is_string($case_field)) {
+                            return sprintf('WHEN %s THEN ' . $field . '+%s ', "'" . $case_field . "'", $field_value['value']);
+                        } else {
+                            return sprintf('WHEN %s THEN ' . $field . '+%s ', $case_field, $field_value['value']);
+                        }
                         break;
                     case 3:
-                        return sprintf('WHEN %s THEN ' . $field . '-%s ', $case_field, $field_value['value']);
+                        if (is_string($case_field)) {
+                            return sprintf('WHEN %s THEN ' . $field . '-%s ', "'" . $case_field . "'", $field_value['value']);
+                        } else {
+                            return sprintf('WHEN %s THEN ' . $field . '-%s ', $case_field, $field_value['value']);
+                        }
                         break;
                     default:
                         throw new Exception('批量修改助手中没有此类型');
